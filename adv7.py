@@ -24,11 +24,11 @@ def val(key):
         if isinstance(args, type(1)):
             return args
         elif len(args) == 1:        # 4000 -> a
-            var[key] = val(args[0])
+            var[key] = 0x0000ffff & val(args[0])
         elif len(args) == 2:        # NOT a -> b
-            var[key] = ~ val(args[1])
+            var[key] = 0x0000ffff & ~ val(args[1])
         else:                       # a OP n -> c
-            var[key] = eval("%s(args[0],args[2])" % args[1])
+            var[key] = 0x0000ffff & eval("%s(args[0],args[2])" % args[1])
     return var[key]
 
 while True:
@@ -44,4 +44,4 @@ if len(sys.argv) > 1 and sys.argv[1] == '2':
     val_a = val('a')
     var = var2
     var['b'] = val_a
-print val('a')
+print 0x0000ffff & val('a')
