@@ -1,5 +1,5 @@
 # AdventOfCode
-My set of Python solutions for the Advent Of Code problems
+My set of Python solutions for the [Advent Of Code](http://adventofcode.com/) problems
 
 ## How do I use this?
 For day _N_, just run:
@@ -12,7 +12,7 @@ If you are still having problems to understand, this will retrieve the answer fo
 `$ python adv8.py`
 
 ## Okay, fine. I got it. How do I change the input to fit the one generated for me?
-All these scripts expect a text file in the same directory. So *adv4.py* expects *input4.txt*, *adv7.py* expects *input7.txt* and so on. You can just replace the content of these files...
+All these scripts expect a text file in the same directory. So **adv4.py** expects **input4.txt**, **adv7.py** expects **input7.txt** and so on. You can just replace the content of these files...
 
 
 ## Why are there files missing?
