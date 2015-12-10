@@ -21,12 +21,13 @@ while True:
     graph[cities.index(b)][cities.index(a)] = int(distance)
 
 import copy
+
 totals = []
 for city in cities:
     graph2 = copy.deepcopy(graph)
     c = cities.index(city)
     traversed = []
-    visited = [c,]
+    visited = [c, ]
     total = 0
     trip = cities[c]
     while len(visited) < NCITIES:

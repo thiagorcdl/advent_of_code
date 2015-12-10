@@ -4,17 +4,22 @@ import sys
 f = open('./input7.txt', 'r')
 var = {}
 
+
 def AND(a, b):
     return val(a) & val(b)
+
 
 def OR(a, b):
     return val(a) | val(b)
 
+
 def LSHIFT(a, n):
-    return val(a) * (2**int(n))
+    return val(a) * (2 ** int(n))
+
 
 def RSHIFT(a, n):
-    return val(a) / (2**int(n))
+    return val(a) / (2 ** int(n))
+
 
 def val(key):
     try:
@@ -23,13 +28,14 @@ def val(key):
         args = var[key]
         if isinstance(args, type(1)):
             return args
-        elif len(args) == 1:        # 4000 -> a
+        elif len(args) == 1:  # 4000 -> a
             var[key] = 0x0000ffff & val(args[0])
-        elif len(args) == 2:        # NOT a -> b
+        elif len(args) == 2:  # NOT a -> b
             var[key] = 0x0000ffff & ~ val(args[1])
-        else:                       # a OP n -> c
+        else:  # a OP n -> c
             var[key] = 0x0000ffff & eval("%s(args[0],args[2])" % args[1])
     return var[key]
+
 
 while True:
     line = f.readline().rstrip()
