@@ -7,7 +7,9 @@ f = open('./input11.txt', 'r')
 str_pwd = f.readline().rstrip()
 pwd = map(ord, list(str_pwd))
 
-incr = lambda ch: 97 + ((ch - 96) % 26)
+
+def incr(ch):
+    return 97 + ((ch - 96) % 26)
 
 for i, char in enumerate(str_pwd):
     if char in ['i', 'o', 'l']:
@@ -24,7 +26,7 @@ while True:
         pwd[j] = 97 + ((char - 96) % 26)
         if pwd[j] in ['i', 'o', 'l']:
             # Jumps to next acceptable string | fiaa -> fjaa
-            pwd[j] = 97 + ((char - 96) % 26)
+            pwd[j] = incr(pwd[i])
         if pwd[j] != 97:
             break
     has_seq = False
@@ -34,9 +36,8 @@ while True:
         if pwd[i+1] == pwd[i]+1 and pwd[i+2] == pwd[i]+2:
             has_seq = True
     str_pwd = "".join(map(chr, pwd))
-    n_pairs = len(set(re.findall(r'(\w)\1{1}', str_pwd)))
-    if n_pairs > 1 and  has_seq :
+    n_pairs = len(set(re.findall(r'(\w)\1', str_pwd)))
+    if n_pairs > 1 and has_seq:
         break
-    # print str_pwd
 
 print str_pwd
