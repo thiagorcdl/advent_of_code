@@ -7,6 +7,15 @@ f = open('./input11.txt', 'r')
 str_pwd = f.readline().rstrip()
 pwd = map(ord, list(str_pwd))
 
+incr = lambda ch: 97 + ((ch - 96) % 26)
+
+for i, char in enumerate(str_pwd):
+    if char in ['i', 'o', 'l']:
+        pwd[i] = incr(pwd[i])
+        for j in range(i+1, 8):
+            pwd[j] = 97
+        str_pwd = "".join(map(chr, pwd))
+        break
 
 while True:
     for i, char in enumerate(reversed(pwd)):
