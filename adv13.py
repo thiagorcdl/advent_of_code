@@ -23,7 +23,7 @@ while True:
     graph[people.index(a)][people.index(b)] += int(value)
     graph[people.index(b)][people.index(a)] += int(value)
 
-# Include yoursef in part 2
+# Include yourself in part 2
 if part2:
     for i in range(NPEOPLE):
         graph[i][NPEOPLE-1] = 0
