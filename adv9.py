@@ -26,7 +26,6 @@ totals = []
 for city in cities:
     graph2 = copy.deepcopy(graph)
     c = cities.index(city)
-    traversed = []
     visited = [c, ]
     total = 0
     trip = cities[c]
