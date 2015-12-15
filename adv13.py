@@ -1,6 +1,5 @@
 #!/usr/bin/python
 import sys
-import copy
 import itertools
 
 part2 = len(sys.argv) > 1 and sys.argv[1] == '2'
@@ -10,6 +9,7 @@ EXCLUDE = 2 ** 31 if part2 else -(2 ** 31)
 people = []
 graph = [[0 for x in range(NPEOPLE)] for y in range(NPEOPLE)]
 
+# Builds Graph
 while True:
     line = f.readline().rstrip()
     if not line:
@@ -23,11 +23,12 @@ while True:
     graph[people.index(a)][people.index(b)] += int(value)
     graph[people.index(b)][people.index(a)] += int(value)
 
+# Include yoursef in part 2
 if part2:
     for i in range(NPEOPLE):
         graph[i][NPEOPLE-1] = 0
-totals = []
 
+# Held-Karp algorithm
 peopleset = set(range(NPEOPLE))
 costs = [{} for x in range(NPEOPLE)]
 
@@ -41,6 +42,6 @@ for i in range(2, NPEOPLE + 1):
                 costs[k][repr(set(subset))] = max(
                     [costs[j][repr(set(subset).difference({k}))] + graph[j][k] for j in subset if j not in [0, k]]
                 )
-            except Exception as e:
+            except:
                 pass
 print max([costs[k][repr(peopleset)] + graph[k][0] for k in range(1, NPEOPLE)])
