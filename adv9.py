@@ -7,7 +7,7 @@ f = open('./input9.txt', 'r')
 NCITIES = 8
 EXCLUDE = -1 if part2 else 2 ** 31
 cities = []
-graph = [[0 for x in range(NCITIES)] for x in range(NCITIES)]
+graph = [[0 for x in range(NCITIES)] for y in range(NCITIES)]
 
 while True:
     line = f.readline().rstrip()
