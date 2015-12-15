@@ -1,5 +1,6 @@
 #!/usr/bin/python
 import sys
+import copy
 
 part2 = len(sys.argv) > 1 and sys.argv[1] == '2'
 f = open('./input9.txt', 'r')
@@ -20,7 +21,6 @@ while True:
     graph[cities.index(a)][cities.index(b)] = int(distance)
     graph[cities.index(b)][cities.index(a)] = int(distance)
 
-import copy
 
 totals = []
 for city in cities:
