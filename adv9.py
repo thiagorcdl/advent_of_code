@@ -41,7 +41,6 @@ for city in cities:
             start = peer + 1
             peer = options.index(distance, start)
         total += distance
-        graph2[visited[-1]] = [EXCLUDE for i in range(NCITIES)]
         for i in range(NCITIES):
             graph2[i][visited[-1]] = EXCLUDE
         visited.append(peer)
