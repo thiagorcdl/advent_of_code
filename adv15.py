@@ -2,7 +2,7 @@
 import re
 import sys
 
-part2 = True or len(sys.argv) > 1 and sys.argv[1] == '2'
+part2 = len(sys.argv) > 1 and sys.argv[1] == '2'
 f = open('./input15.txt', 'r').read()
 pattern = r'(\w+): capacity (-?\d+), durability (-?\d+), flavor (-?\d+), texture (-?\d+), calories (-?\d+)'
 ingr = []
