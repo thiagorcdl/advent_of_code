@@ -3,7 +3,7 @@ import sys
 
 part2 = True or len(sys.argv) > 1 and sys.argv[1] == '2'
 f = open('./input14.txt', 'r')
-finish = 2504
+finish = 2503
 
 total = 0
 timeline = [[] for s in range(finish)]
@@ -28,10 +28,11 @@ while True:
         total = max(total,  distance(speed, traveltime, resttime))
 
 if part2:
+    d3 = lambda x: '%4d' % x
     for t in range(finish):
-        print t+1, timeline[t], max(timeline[t])
+        print "%04d" % (t + 1), map(d3, timeline[t]), max(timeline[t])
         stars[timeline[t].index(max(timeline[t]))] += 1
-    print stars
+    print '    ', map(d3, stars)
     print max(stars)
 else:
     print total
