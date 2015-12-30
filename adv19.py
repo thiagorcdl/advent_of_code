@@ -13,7 +13,7 @@ if part2:
     transit = {}
     best = 2 ** 32
 
-    def generate():
+    def dissolve():
         global mol
         global best
         if mol == 'e':
@@ -27,13 +27,13 @@ if part2:
             for match in re.finditer(key, mol):
                 mol = mol[:match.start()] + val + mol[match.end():]
                 path.append(val)
-                best = min(best, generate())
+                best = min(best, dissolve())
                 del path[-1]
                 mol = mol[:match.start()] + key + mol[match.start() + len(val):]
         return best
     for key, val in re.findall('(\w+) => (\w+)', f):
             transit[val] = key
-    print generate()
+    print dissolve()
 else:
     for key, val in re.findall('(\w+) => (\w+)', f):
         for match in re.finditer(key, mol):
