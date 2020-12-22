@@ -16,7 +16,7 @@ def run_day_resolution(day: int, part: int = 1) -> None:
     with open(f"./src/{module_name}/input.txt", "r") as file:
         input_lines = file.readlines()
 
-    module.Resolution.run(part, input_lines)
+    module.Resolution().run(part, input_lines)
 
 
 if __name__ == "__main__":
