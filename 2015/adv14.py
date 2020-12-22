@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python2
 import sys
 
 part2 = True or len(sys.argv) > 1 and sys.argv[1] == '2'
