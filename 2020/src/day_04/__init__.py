@@ -52,9 +52,8 @@ class Resolution(BaseResolution):
             - If cm, the number must be at least 150 and at most 193.
             - If in, the number must be at least 59 and at most 76.
         """
-        try:
-            match = re.match(r"(\d+)(\w+)$", value)
-        except:
+        match = re.match(r"(\d+)(\w+)$", value)
+        if not match:
             return False
         height = int(match.group(1))
         unit = match.group(2)
@@ -74,7 +73,7 @@ class Resolution(BaseResolution):
 
     def validate_pid(self, value) -> bool:
         """Return True if a nine-digit number, including leading zeroes."""
-        return re.match(r"\d{9}$", value)
+        return bool(re.match(r"\d{9}$", value))
 
     def call_validator(self, field, value):
         """Run appropriate validator for field."""

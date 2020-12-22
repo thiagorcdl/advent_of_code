@@ -20,7 +20,6 @@ def run_day_resolution(day: int, part: int = 1) -> None:
 
 
 if __name__ == "__main__":
-    # sys.path.append(path.join(path.dirname(__file__), 'src'))
     day = int(sys.argv[1])
     part = len(sys.argv) > 2 and int(sys.argv[2]) or 1
     # TODO: validate input
