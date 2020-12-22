@@ -17,8 +17,7 @@ class Resolution(BaseResolution):
     """Logics for resolving day 4."""
     day = 4
 
-    @staticmethod
-    def part_1(input_lines: list):
+    def part_1(self, input_lines: list):
         """Run solution for part 1."""
         total = 0
         fields = set()

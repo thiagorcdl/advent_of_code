@@ -8,8 +8,7 @@ class Resolution(BaseResolution):
     """Logics for resolving day 3."""
     day = 3
 
-    @staticmethod
-    def part_1(input_lines: list):
+    def part_1(self, input_lines: list):
         """Run solution for part 1."""
         total = 0
         for i, line in enumerate(input_lines):
@@ -17,8 +16,7 @@ class Resolution(BaseResolution):
             total += 1 if line[idx] == TREE else 0
         print(total)
 
-    @staticmethod
-    def part_2(input_lines: list):
+    def part_2(self, input_lines: list):
         """Run solution for part 2."""
         total = 1
         pairs = (

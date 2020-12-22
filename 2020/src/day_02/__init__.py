@@ -12,8 +12,7 @@ class Resolution(BaseResolution):
     """
     day = 2
 
-    @staticmethod
-    def part_1(input_lines: list):
+    def part_1(self, input_lines: list):
         """Run solution for part 1."""
         valid = 0
         for line in input_lines:
@@ -26,8 +25,7 @@ class Resolution(BaseResolution):
                 valid += 1
         print(valid)
 
-    @staticmethod
-    def part_2(input_lines: list):
+    def part_2(self, input_lines: list):
         """Run solution for part 2."""
         valid = 0
         for line in input_lines:

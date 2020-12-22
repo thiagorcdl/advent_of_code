@@ -6,8 +6,7 @@ class Resolution(BaseResolution):
     """Logics for resolving day 1."""
     day = 1
 
-    @staticmethod
-    def part_1(input_lines: list):
+    def part_1(self, input_lines: list):
         """Run n**2 solution for part 1."""
         total = 2020
         for i, line in enumerate(input_lines):
@@ -19,8 +18,7 @@ class Resolution(BaseResolution):
                     print(line * candidate)
                     return
 
-    @staticmethod
-    def part_2(input_lines: list):
+    def part_2(self, input_lines: list):
         """Run n**3 solution for part 2."""
         total = 2020
         for i, line in enumerate(input_lines):
