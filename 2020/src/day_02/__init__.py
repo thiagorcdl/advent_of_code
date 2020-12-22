@@ -26,3 +26,18 @@ class Resolution(BaseResolution):
                 valid += 1
         print(valid)
 
+    @staticmethod
+    def part_2(input_lines: list):
+        """Run solution for part 2."""
+        valid = 0
+        for line in input_lines:
+            match = re.match(r"(\d+)-(\d+) (\w): (\w+)", line)
+            pos_1 = int(match.group(1)) - 1
+            pos_2 = int(match.group(2)) - 1
+            char = match.group(3)
+            password = match.group(4)
+            chars = {password[pos_1], password[pos_2]}
+            if len(chars) > 1 and char in chars:
+                valid += 1
+        print(valid)
+
