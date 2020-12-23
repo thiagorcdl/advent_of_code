@@ -57,7 +57,7 @@ class Resolution(BaseResolution):
         """Find how many bag colors can contain at least one shiny gold bag."""
         for line in input_lines:
             current_name, rest = line.split(" bags contain")
-            match = re.findall(r" \d+ ([ \w]+) bags?", rest)
+            match = re.findall(r" (\d+) ([ \w]+) bags?", rest)
             current = bag_map.setdefault(current_name, Bag(current_name))
             current.add_children(match)
 
