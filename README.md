@@ -1,5 +1,7 @@
-# Advent Of Code 2020
-My set of Python solutions for the [Advent Of Code 2020](http://adventofcode.com/2020/) problems
+# Advent Of Code
+[![Released under the GNU license.](https://img.shields.io/badge/license-GNU-lightgrey.svg)](https://github.com/thiagorcdl/bitcoin_heist/blob/master/LICENSE) 
+
+My set of Python solutions for the [Advent Of Code](http://adventofcode.com/) problems
 
 ## How do I use this?
 For day _N_, just run:
