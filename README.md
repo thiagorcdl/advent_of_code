@@ -1,5 +1,5 @@
 # Advent Of Code
-[![Released under the GNU license.](https://img.shields.io/badge/license-GNU-lightgrey.svg)](https://github.com/thiagorcdl/bitcoin_heist/blob/master/LICENSE) 
+[![Released under the GNU license.](https://img.shields.io/badge/license-GNU_GPLv3-red.svg)](https://github.com/thiagorcdl/bitcoin_heist/blob/master/LICENSE) 
 
 My set of Python solutions for the [Advent Of Code](http://adventofcode.com/) problems
 
