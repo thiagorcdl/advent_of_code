@@ -68,12 +68,12 @@ class Resolution(BaseResolution):
                         repeated_points.add(key)
                     else:
                         points.add(key)
-        print(len(repeated_points))
+        return len(repeated_points)
 
     def part_2(self):
         """Find out at how many points at least two lines overlap, also considering
         diagonals.
         """
-        self.part_1(allow_diagonals=True)
+        return self.part_1(allow_diagonals=True)
 
 

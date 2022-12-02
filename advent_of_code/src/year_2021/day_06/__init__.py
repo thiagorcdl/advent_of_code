@@ -36,7 +36,7 @@ class Resolution(BaseResolution):
 
             existing_fish += new_fish
             total = len(existing_fish)
-        print(total)
+        return total
 
     @lru_cache(40960)
     def get_children(self, start_timer, max_days) -> int:
@@ -96,6 +96,5 @@ class Resolution(BaseResolution):
 
             print(f"total: {total}")
 
-        print(total)
+        return total # 173078835695 (too low)
 
-# 173078835695

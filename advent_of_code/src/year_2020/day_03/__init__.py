@@ -14,7 +14,7 @@ class Resolution(BaseResolution):
         for i, line in enumerate(self.input_lines):
             idx = (i * 3) % len(line.strip())
             total += 1 if line[idx] == TREE else 0
-        print(total)
+        return total
 
     def part_2(self):
         """Run solution for part 2."""
@@ -33,5 +33,5 @@ class Resolution(BaseResolution):
                 idx = (i * right) % len(line.strip())
                 partial += 1 if line[idx] == TREE else 0
             total *= partial
-        print(total)
+        return total
 

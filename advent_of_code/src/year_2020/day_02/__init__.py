@@ -23,7 +23,7 @@ class Resolution(BaseResolution):
             password = match.group(4)
             if char_min <= password.count(char) <= char_max:
                 valid += 1
-        print(valid)
+        return valid
 
     def part_2(self):
         """Run solution for part 2."""
@@ -37,5 +37,5 @@ class Resolution(BaseResolution):
             chars = {password[pos_1], password[pos_2]}
             if len(chars) > 1 and char in chars:
                 valid += 1
-        print(valid)
+        return valid
 

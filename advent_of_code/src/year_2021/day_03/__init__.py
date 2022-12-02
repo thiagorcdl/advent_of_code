@@ -47,7 +47,7 @@ class Resolution(BaseResolution):
         common_mask = self.build_common_mask(bitcount, length)
         gamma = self.build_rate(common_mask)
         epsilon = self.build_rate(common_mask, invert=True)
-        print(gamma * epsilon)
+        return gamma * epsilon
 
     def search_gas(self, number_list, invert=False):
         """Yield the number corresponding to the oxygen rating, considering most
@@ -80,6 +80,6 @@ class Resolution(BaseResolution):
         number_list = [line.strip() for line in self.input_lines]
         oxygen = self.search_gas(number_list)
         carbon_dioxide = self.search_gas(number_list, invert=True)
-        print(oxygen * carbon_dioxide)
+        return oxygen * carbon_dioxide
 
 

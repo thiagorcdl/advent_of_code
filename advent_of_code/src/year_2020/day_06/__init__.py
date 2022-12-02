@@ -23,7 +23,7 @@ class Resolution(BaseResolution):
             questions |= set(matches)
 
         total += len(questions)
-        print(total)
+        return total
 
     def part_2(self):
         """Count the number of questions to which EVERYONE answered "yes"."""
@@ -39,4 +39,4 @@ class Resolution(BaseResolution):
             questions &= set(matches)
 
         total += len(questions)
-        print(total)
+        return total

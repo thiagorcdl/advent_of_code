@@ -29,7 +29,7 @@ class Resolution(BaseResolution):
             if cmd == "acc":
                 acc = operator(acc, param)
 
-        print(acc)
+        return acc
 
     def run_program(self):
         """Run all instructions and check whether end was achieved."""
@@ -69,20 +69,17 @@ class Resolution(BaseResolution):
                     input_lines[idx] = input_lines[idx].replace("jmp", "nop")
                     success, acc = self.run_program()
                     if success:
-                        print(acc)
-                        return
+                        return acc
                     input_lines[idx] = input_lines[idx].replace("nop", "jmp")
 
                 for idx in nop_idx:
                     input_lines[idx] = input_lines[idx].replace("nop", "jmp")
                     success, acc = self.run_program()
                     if success:
-                        print(acc)
-                        return
+                        return acc
                     input_lines[idx] = input_lines[idx].replace("jmp", "nop")
 
-                print("FAILED repeating", i)
-                return
+                return "FAILED repeating", i
 
             visited.append(i)
             match = re.match(r"(nop|acc|jmp) (\+|-)(\d+)", input_lines[i])

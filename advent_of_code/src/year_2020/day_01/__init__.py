@@ -15,8 +15,7 @@ class Resolution(BaseResolution):
             for candidate in self.input_lines[i+1:]:
                 candidate = int(candidate)
                 if rest == candidate:
-                    print(line * candidate)
-                    return
+                    return line * candidate
 
     def part_2(self):
         """Run n**3 solution for part 2."""
@@ -30,5 +29,4 @@ class Resolution(BaseResolution):
                 for candidate2 in self.input_lines[i+2:]:
                     candidate2 = int(candidate2)
                     if rest2 == candidate2:
-                        print(line * candidate1 * candidate2)
-                        return
+                        return line * candidate1 * candidate2

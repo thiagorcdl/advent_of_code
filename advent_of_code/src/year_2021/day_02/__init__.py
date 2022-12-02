@@ -24,7 +24,7 @@ class Resolution(BaseResolution):
             elif command == "down":
                 depth += value
 
-        print(horizontal * depth)
+        return horizontal * depth
 
     def part_2(self):
         """Calculate the horizontal position and depth after following the planned
@@ -46,6 +46,6 @@ class Resolution(BaseResolution):
             elif command == "down":
                 aim += value
 
-        print(horizontal * depth)
+        return horizontal * depth
 
 

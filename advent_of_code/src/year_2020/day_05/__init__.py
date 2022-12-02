@@ -24,7 +24,7 @@ class Resolution(BaseResolution):
     def part_1(self):
         """Find highest seat ID."""
         highest = max(self.get_all_seat_ids())
-        print(highest)
+        return highest
 
     def part_2(self):
         """Find your seat ID (non-border gap)."""
@@ -33,6 +33,5 @@ class Resolution(BaseResolution):
             current = seat_ids[i]
             next_id = current + 1
             if seat_ids[i + 1] != next_id:
-                print(next_id)
-                break
+                return next_id
 

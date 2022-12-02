@@ -33,7 +33,7 @@ class Resolution(BaseResolution):
 
         if fields >= REQUIRED:
             total += 1
-        print(total)
+        return total
 
     def validate_byr(self, value) -> bool:
         """Return True if four digits; at least 1920 and at most 2002."""
@@ -105,4 +105,4 @@ class Resolution(BaseResolution):
 
         if self.validate(fields):
             total += 1
-        print(total)
+        return total

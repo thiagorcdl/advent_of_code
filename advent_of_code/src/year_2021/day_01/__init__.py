@@ -17,7 +17,7 @@ class Resolution(BaseResolution):
                 total += 1
             previous_val = current_val
 
-        print(total)
+        return total
 
     def part_2(self):
         """Count how many sums are larger than the previous sum (3-value windows)."""
@@ -25,6 +25,6 @@ class Resolution(BaseResolution):
             int(val) + int(self.input_lines[i+1]) + int(self.input_lines[i + 2])
             for i, val in enumerate(self.input_lines[:-2])
         ]
-        self.part_1()
+        return self.part_1()
 
 

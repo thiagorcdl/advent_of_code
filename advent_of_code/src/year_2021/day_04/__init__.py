@@ -114,7 +114,7 @@ class Resolution(BaseResolution):
                     break
             board_idx += 1
 
-        print(earliest.score)
+        return earliest.score
 
     def part_2(self):
         """Find last board to win and print its score."""
@@ -145,6 +145,6 @@ class Resolution(BaseResolution):
                 break
             board_idx += 1
 
-        print(earliest.score)
+        return earliest.score
 
 

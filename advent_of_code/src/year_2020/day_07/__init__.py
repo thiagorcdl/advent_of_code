@@ -63,7 +63,7 @@ class Resolution(BaseResolution):
 
         shiny_gold = bag_map["shiny gold"]
         shiny_gold.traverse_parents()
-        print(len(part_1_bag_set) - 1)
+        return len(part_1_bag_set) - 1
 
     def part_2(self):
         """Find how many individual bags are required inside your single shiny
@@ -77,5 +77,5 @@ class Resolution(BaseResolution):
 
         shiny_gold = bag_map["shiny gold"]
         shiny_gold.get_children_count()
-        print(shiny_gold.get_children_count())
+        return shiny_gold.get_children_count()
 
