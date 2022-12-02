@@ -1,34 +1,54 @@
-#!/usr/bin/python2
-import sys
-
-part2 = len(sys.argv) > 1 and sys.argv[1] == '2'
-f = open('./input6.txt', 'r')
-total = 0
-grid = [[0 for x in range(1000)] for y in range(1000)]
+from advent_of_code.src.utils import BaseResolution
 
 
-def turnon(i, j):
-    grid[i][j] = grid[i][j] + 1 if part2 else 1
+class Resolution(BaseResolution):
+    """Logics for resolving day 6."""
+    day = 6
 
+    grid = [[0 for x in range(1000)] for y in range(1000)]
 
-def turnoff(i, j):
-    grid[i][j] = max(grid[i][j] - 1, 0) if part2 else 0
+    def part_1(self):
+        """Run solution for part 1."""
 
+        def turnon(i, j):
+            self.grid[i][j] = 1
 
-def toggle(i, j):
-    grid[i][j] = grid[i][j] + 2 if part2 else grid[i][j] ^ 1
+        def turnoff(i, j):
+            self.grid[i][j] = 0
 
+        def toggle(i, j):
+            self.grid[i][j] = self.grid[i][j] ^ 1
 
-while True:
-    line = f.readline().rstrip()
-    if not line:
-        print sum(map(sum, grid))
-        break
-    line = line.replace('turn ', 'turn')  # normalizes amount of arguments
-    print line  # This is the slowest script so far due to O(n^2); printing just so user knows it's running
-    action, ia_ja, through, ib_jb = line.split(' ')
-    ia, ja = map(lambda x: int(x), ia_ja.split(','))
-    ib, jb = map(lambda x: int(x), ib_jb.split(','))
-    for i in range(ia, ib + 1):
-        for j in range(ja, jb + 1):
-            eval("%s(i,j)" % action)
+        for line in self.input_lines:
+            line = line.replace('turn ', 'turn')  # normalizes amount of arguments
+            action, ia_ja, through, ib_jb = line.split(' ')
+            ia, ja = map(lambda x: int(x), ia_ja.split(','))
+            ib, jb = map(lambda x: int(x), ib_jb.split(','))
+            for i in range(ia, ib + 1):
+                for j in range(ja, jb + 1):
+                    eval("%s(i,j)" % action)
+
+        return sum(map(sum, self.grid))
+
+    def part_2(self):
+        """Run solution for part 2."""
+
+        def turnon(i, j):
+            self.grid[i][j] = self.grid[i][j] + 1
+
+        def turnoff(i, j):
+            self.grid[i][j] = max(self.grid[i][j] - 1, 0)
+
+        def toggle(i, j):
+            self.grid[i][j] = self.grid[i][j] + 2
+
+        for line in self.input_lines:
+            line = line.replace('turn ', 'turn')  # normalizes amount of arguments
+            action, ia_ja, through, ib_jb = line.split(' ')
+            ia, ja = map(lambda x: int(x), ia_ja.split(','))
+            ib, jb = map(lambda x: int(x), ib_jb.split(','))
+            for i in range(ia, ib + 1):
+                for j in range(ja, jb + 1):
+                    eval("%s(i,j)" % action)
+
+        return sum(map(sum, self.grid))

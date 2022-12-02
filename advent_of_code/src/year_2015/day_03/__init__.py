@@ -23,7 +23,7 @@ class Resolution(BaseResolution):
             visited.append(current[turn])
             if part == 2:
                 turn ^= 1
-        print(len(set(visited)))
+        return len(set(visited))
 
     def part_1(self):
         """Run solution for part 1."""
