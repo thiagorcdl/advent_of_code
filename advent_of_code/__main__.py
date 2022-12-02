@@ -34,10 +34,10 @@ def run_day_resolution(year: int, day: int, part: int = 1) -> None:
     input_path = f"advent_of_code/src/{year_module_name}/{day_module_name}/input.txt"
     logger.debug(f"\n\tinput_path: {input_path}")
     with open(input_path, "r") as file:
-        input_lines = file.readlines()
+        input_lines = file.read().splitlines()
 
     resolver = module.Resolution(input_lines)
-    resolver.run(part)
+    print(resolver.run(part))
 
 
 if __name__ == "__main__":
