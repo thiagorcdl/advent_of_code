@@ -1,8 +1,8 @@
-from advent_of_code.src.utils import BaseResolution
+from advent_of_code.src.utils import BaseSolution
 
 
-class Resolution(BaseResolution):
-    """Logics for resolving day 6."""
+class Solution(BaseSolution):
+    """Logics for solving day 6."""
     day = 6
 
     grid = [[0 for x in range(1000)] for y in range(1000)]

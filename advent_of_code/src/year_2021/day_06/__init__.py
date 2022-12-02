@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from functools import lru_cache
 
-from advent_of_code.src.utils import BaseResolution
+from advent_of_code.src.utils import BaseSolution
 
 FISH_CYCLE_DAYS = 7
 EXISTING_FISH_START = 6
@@ -10,8 +10,8 @@ MAX_DAYS1 = 80
 MAX_DAYS2 = 256
 
 
-class Resolution(BaseResolution):
-    """Logics for resolving day 6."""
+class Solution(BaseSolution):
+    """Logics for solving day 6."""
     day = 6
 
     init_cache = {}

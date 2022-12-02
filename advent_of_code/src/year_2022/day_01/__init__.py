@@ -1,8 +1,8 @@
-from advent_of_code.src.utils import BaseResolution
+from advent_of_code.src.utils import BaseSolution
 
 
-class Resolution(BaseResolution):
-    """Logic for resolving day 1."""
+class Solution(BaseSolution):
+    """Logic for solving day 1."""
     day = 1
 
     def part_1(self):

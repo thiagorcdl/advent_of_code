@@ -1,9 +1,9 @@
 #!/usr/bin/env python
-from advent_of_code.src.utils import BaseResolution
+from advent_of_code.src.utils import BaseSolution
 
 
-class Resolution(BaseResolution):
-    """Logics for resolving day 5."""
+class Solution(BaseSolution):
+    """Logics for solving day 5."""
     day = 5
 
     def get_seat_id(self, row, col):

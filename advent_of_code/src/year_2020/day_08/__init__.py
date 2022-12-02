@@ -1,13 +1,13 @@
 #!/usr/bin/env python
-from advent_of_code.src.utils import BaseResolution
+from advent_of_code.src.utils import BaseSolution
 import re
 from operator import add, sub
 
 OPERATORS = {"+": add, "-": sub}
 
 
-class Resolution(BaseResolution):
-    """Logics for resolving day 8."""
+class Solution(BaseSolution):
+    """Logics for solving day 8."""
     day = 8
 
     def part_1(self):

@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from advent_of_code.src.utils import BaseResolution
+from advent_of_code.src.utils import BaseSolution
 import re
 
 bag_map = dict()
@@ -49,8 +49,8 @@ class Bag:
         return part_2_child_count[self.name]
 
 
-class Resolution(BaseResolution):
-    """Logics for resolving day 7."""
+class Solution(BaseSolution):
+    """Logics for solving day 7."""
     day = 7
 
     def part_1(self):

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-class BaseResolution:
+class BaseSolution:
     """Base class to be used by each day."""
     day = 0
     input_lines: list = []

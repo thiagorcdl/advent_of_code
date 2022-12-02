@@ -36,8 +36,9 @@ def run_day_resolution(year: int, day: int, part: int = 1) -> None:
     with open(input_path, "r") as file:
         input_lines = file.read().splitlines()
 
-    resolver = module.Resolution(input_lines)
-    print(resolver.run(part))
+    solver = module.Solution(input_lines)
+    result = solver.run(part)
+    print(result)
 
 
 if __name__ == "__main__":

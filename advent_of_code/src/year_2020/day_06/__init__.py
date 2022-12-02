@@ -2,11 +2,11 @@
 import re
 
 from string import ascii_lowercase
-from advent_of_code.src.utils import BaseResolution
+from advent_of_code.src.utils import BaseSolution
 
 
-class Resolution(BaseResolution):
-    """Logics for resolving day 6."""
+class Solution(BaseSolution):
+    """Logics for solving day 6."""
     day = 6
 
     def part_1(self):

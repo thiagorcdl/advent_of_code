@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from advent_of_code.src.utils import BaseResolution
+from advent_of_code.src.utils import BaseSolution
 
 GRID_SIZE = 5
 
@@ -81,8 +81,8 @@ class Board:
         return self.winning_number * unmarked_sum
 
 
-class Resolution(BaseResolution):
-    """Logics for resolving day 4."""
+class Solution(BaseSolution):
+    """Logics for solving day 4."""
     day = 4
 
     def part_1(self):

@@ -1,9 +1,9 @@
 #!/usr/bin/env python
-from advent_of_code.src.utils import BaseResolution
+from advent_of_code.src.utils import BaseSolution
 
 
-class Resolution(BaseResolution):
-    """Logics for resolving day 1."""
+class Solution(BaseSolution):
+    """Logics for solving day 1."""
     day = 1
 
     def part_1(self):

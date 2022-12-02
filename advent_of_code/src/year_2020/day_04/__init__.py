@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import re
-from advent_of_code.src.utils import BaseResolution
+from advent_of_code.src.utils import BaseSolution
 
 REQUIRED = {
     "byr",
@@ -13,8 +13,8 @@ REQUIRED = {
 }
 
 
-class Resolution(BaseResolution):
-    """Logics for resolving day 4."""
+class Solution(BaseSolution):
+    """Logics for solving day 4."""
     day = 4
 
     def part_1(self):
