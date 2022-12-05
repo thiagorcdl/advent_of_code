@@ -3,11 +3,13 @@
 class BaseSolution:
     """Base class to be used by each day."""
     day = 0
+    raw_input: str = ""
     input_lines: list = []
 
-    def __init__(self, input_lines: list):
+    def __init__(self, raw_input: str):
         super().__init__()
-        self.input_lines = input_lines
+        self.raw_input = raw_input
+        self.input_lines = raw_input.splitlines()
 
     def part_1(self):
         """Run solution for part 1."""
