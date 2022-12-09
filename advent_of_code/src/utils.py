@@ -9,6 +9,7 @@ class BaseSolution:
     raw_input: str = ""
     input_lines: list = []
     limit_recursion = True
+    example = False
 
     def __init__(self, raw_input: str):
         super().__init__()

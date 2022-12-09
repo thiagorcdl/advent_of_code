@@ -31,7 +31,8 @@ def run_day_resolution(year: int, day: int, part: int = 1) -> None:
         print(f"Day {day} for year {year} hasn't been implemented yet.")
         return
 
-    input_path = f"advent_of_code/src/{year_module_name}/{day_module_name}/input.txt"
+    file = "example" if module.Solution.example else "input"
+    input_path = f"advent_of_code/src/{year_module_name}/{day_module_name}/{file}.txt"
     logger.debug(f"\n\tinput_path: {input_path}")
     with open(input_path, "r") as file:
         raw_input = file.read()
