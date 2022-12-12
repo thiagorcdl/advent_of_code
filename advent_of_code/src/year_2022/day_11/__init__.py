@@ -1,6 +1,12 @@
 import re
+from functools import lru_cache, reduce
 
 from advent_of_code.src.utils import BaseSolution
+
+PRIME_NUMBERS = [
+    2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79,
+    83, 89, 97
+]
 
 
 class Monkey:
@@ -8,6 +14,7 @@ class Monkey:
     items: list
     operation: str
     test_division: int
+    test_division2: int
     destination_true: int
     destination_false: int
     inspection_count: int
@@ -26,13 +33,32 @@ class Monkey:
         text += f"    If false: throw to monkey {self.destination_false}\n\n"
         return text
 
+    @lru_cache(maxsize=None)
+    def divisors(self):
+        divisors = [self.test_division]
+        divisor_queue = [self.test_division]
+        for amount in range(1, 3):
+            divisor_queue_copy = [x for x in divisor_queue]
+            divisor_queue = []
+            while divisor_queue_copy:
+                existing_div = divisor_queue_copy.pop(0)
+                for prime in PRIME_NUMBERS:
+                    new_num = existing_div * prime
+                    divisors.append(new_num)
+                    divisor_queue.append(new_num)
+        return sorted(divisors, reverse=True)
+
 
 class Solution(BaseSolution):
     """Logics for solving day 11."""
     day = 11
     monkeys = []
 
-    # example = True
+    example = True
+    divisors = []
+    divisor = 1
+    divisor2 = 2
+    divisor_count = 0
 
     def get_monkey_business(self):
         """Multiply two top inspection counts."""
@@ -44,7 +70,6 @@ class Solution(BaseSolution):
                     highest.pop()
                     break
 
-        print(highest)
         return highest[0] * highest[1]
 
     def setup(self):
@@ -61,54 +86,87 @@ class Solution(BaseSolution):
             elif match := re.findall(r"Operation: new = (.+)", line):
                 curr_monkey.operation = match[0]
             elif match := re.findall(r"Test: divisible by (\d+)", line):
-                curr_monkey.test_division = int(match[0])
+                divisor = int(match[0])
+                curr_monkey.test_division = divisor
+                curr_monkey.test_division2 = divisor * 2
+                self.divisors.append(divisor)
             elif match := re.findall(r"If true: throw to monkey (\d+)", line):
                 curr_monkey.destination_true = int(match[0])
             elif match := re.findall(r"If false: throw to monkey (\d+)", line):
                 curr_monkey.destination_false = int(match[0])
-                print(curr_monkey)
+                print(curr_monkey.divisors())
 
-    def simulate_turn(self):
+        self.divisor = reduce(lambda x, y: x * y, self.divisors)
+        self.divisor2 = self.divisor * 2
+
+    def simulate_round(self, part=1):
         """Simulate simian shenanigans for one round."""
         for monkey in self.monkeys:
-            print(f"Monkey {monkey.id}")
             for old in monkey.items:
-                print(f"\tInspects item {old}")
-                increased = eval(monkey.operation)
-                print(f"\t\tWorry increased to {increased}")
-                decreased = increased // 3
-                print(f"\t\tWorry decreased to {decreased}")
+                new = eval(monkey.operation)
 
-                if decreased % monkey.test_division == 0:
-                    print(f"\t\tIs divisible by {monkey.test_division}")
+                if part == 1:
+                    new = new // 3
+
+                dest_monkey = monkey.destination_false
+                dividend = new
+                if dividend >= self.divisor2:
+                    dividend = dividend % self.divisor
+                if dividend == 0:
+                    dest_monkey = monkey.destination_true
                 else:
-                    print(f"\t\tIs NOT divisible by {monkey.test_division}")
+                    for divisor in monkey.divisors():
+                        if divisor * 2 > dividend:
+                            continue
+                        dividend = dividend % divisor
+                        if dividend == 0:
+                            dest_monkey = monkey.destination_true
+                            break
 
-                dest_monkey = (
-                    monkey.destination_true
-                    if (decreased % monkey.test_division) == 0
-                    else monkey.destination_false
-                )
-                print(f"\t\tItem {decreased} is thrown to {dest_monkey}")
-                self.monkeys[dest_monkey].items.append(decreased)
+                self.monkeys[dest_monkey].items.append(new)
 
             monkey.inspection_count += len(monkey.items)
             monkey.items = []
-            print(f"\t Inspection count: {monkey.inspection_count}\n")
 
     def part_1(self):
         """Find the level of monkey business after 20 rounds of stuff-slinging
         simian shenanigans.
         """
         self.setup()
-        for turn in range(20):
-            print(f"TURN {turn} -------------------------------------------------")
-            self.simulate_turn()
+        for r in range(20):
+            print(f"ROUND {r} -------------------------------------------------")
+            self.simulate_round()
         return self.get_monkey_business()
+
+    def get_item_counts(self):
+        return list(map(lambda x: len(x.items), self.monkeys))
+
+    def get_inspec_counts(self):
+        return [x.inspection_count for x in self.monkeys]
 
     def part_2(self):
         """Run solution for part 2."""
-        total = 0
-        for line in self.input_lines:
-            pass
-        return total
+        self.setup()
+        # prev = self.get_item_counts(), self.get_inspec_counts()
+        print(self.divisor)
+        n_rounds = 10000
+        for r in range(1, n_rounds + 1):
+            print(f"ROUND {r} -------------------------------------------------")
+            self.simulate_round(part=2)
+
+            # counts = self.get_item_counts(), self.get_inspec_counts()
+            # diffs = (
+            #     [(c - p) for c, p in zip(counts[0], prev[0])],
+            #     [(c - p) for c, p in zip(counts[1], prev[1])]
+            # )
+            # print(counts)
+            # print(diffs)
+            # mb = self.get_monkey_business()
+            # print(f"mb: {mb}")
+            # ratio = mb / r**2
+            # print(f"ratio: {ratio}")
+            # print(f"predicted: {ratio * n_rounds**2}")
+
+            # prev = counts
+            print(self.get_inspec_counts())
+        return self.get_monkey_business()  # 28500000000 < result < 28600000000
