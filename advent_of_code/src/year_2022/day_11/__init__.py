@@ -35,7 +35,7 @@ class Monkey:
 
     @lru_cache(maxsize=None)
     def divisors(self):
-        divisors = [self.test_division]
+        divisors = {self.test_division}
         divisor_queue = [self.test_division]
         for amount in range(1, 3):
             divisor_queue_copy = [x for x in divisor_queue]
@@ -44,9 +44,9 @@ class Monkey:
                 existing_div = divisor_queue_copy.pop(0)
                 for prime in PRIME_NUMBERS:
                     new_num = existing_div * prime
-                    divisors.append(new_num)
+                    divisors.add(new_num)
                     divisor_queue.append(new_num)
-        return sorted(divisors, reverse=True)
+        return sorted(list(divisors), reverse=True)
 
 
 class Solution(BaseSolution):
@@ -54,7 +54,7 @@ class Solution(BaseSolution):
     day = 11
     monkeys = []
 
-    example = True
+    # example = True
     divisors = []
     divisor = 1
     divisor2 = 2
@@ -153,20 +153,5 @@ class Solution(BaseSolution):
         for r in range(1, n_rounds + 1):
             print(f"ROUND {r} -------------------------------------------------")
             self.simulate_round(part=2)
-
-            # counts = self.get_item_counts(), self.get_inspec_counts()
-            # diffs = (
-            #     [(c - p) for c, p in zip(counts[0], prev[0])],
-            #     [(c - p) for c, p in zip(counts[1], prev[1])]
-            # )
-            # print(counts)
-            # print(diffs)
-            # mb = self.get_monkey_business()
-            # print(f"mb: {mb}")
-            # ratio = mb / r**2
-            # print(f"ratio: {ratio}")
-            # print(f"predicted: {ratio * n_rounds**2}")
-
-            # prev = counts
             print(self.get_inspec_counts())
         return self.get_monkey_business()  # 28500000000 < result < 28600000000
