@@ -1,6 +1,4 @@
 import re
-import os
-import time
 from advent_of_code.src.utils import BaseSolution
 
 
@@ -71,7 +69,7 @@ class Solution(BaseSolution):
         self.cave[col].insert(idx, line)
         try:
             self.simulated_cave[line][col] = self.SAND
-        except:
+        except IndexError:
             pass
         return True
 
