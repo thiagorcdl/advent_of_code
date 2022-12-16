@@ -87,7 +87,12 @@ class Solution(BaseSolution):
         return None
 
     def part_2(self):
-        """Run solution for part 2."""
+        """Find missing spot by creating a lsit of ranges.
+
+        In hindsight a much better approach would be to iterate through the cells
+        of the permeters of the sensors, then for each one check if it's out of range
+        of all sensors. If yes, that's the missing spot.
+        """
         rows = [{"complete": False, "ranges": []} for i in range(self.MAX)]
 
         for line in self.input_lines:
