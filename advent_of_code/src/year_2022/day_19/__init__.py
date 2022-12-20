@@ -1,4 +1,7 @@
 import re
+from copy import copy
+from functools import lru_cache
+from math import ceil
 
 from advent_of_code.src.utils import BaseSolution
 
@@ -44,9 +47,9 @@ ROBOT_CLASSES = [OreBot, ClayBot, ObsidianBot, GeodeBot]
 
 class Solution(BaseSolution):
     """Logics for solving day 19."""
+    MEMOIZE = dict()
     MAX_MINUTE = 24
     PRODUCERS = {bot_class.produces: bot_class for bot_class in ROBOT_CLASSES}
-    seeking_material = None
     blueprints = []
     bp_max_geo = []
     robots = {bot_class: 0 for bot_class in ROBOT_CLASSES}
@@ -55,74 +58,6 @@ class Solution(BaseSolution):
     day = 19
 
     example = True
-
-    def get_quality_level(self, bp_id):
-        return (bp_id + 1) * self.bp_max_geo[bp_id]
-
-    def get_missing_materials(self, bot_class: BotBase):
-        """Check if there are enough materials to build bot."""
-        missing = []
-        for mat_type, mat_cost in bot_class.materials.items():
-            if self.materials[mat_type] < mat_cost:
-                missing.append(mat_type)
-        return missing
-
-    def build(self, bot_class: BotBase):
-        """Consume materials and add bot to assembly line."""
-        for mat_type, mat_cost in bot_class.materials.items():
-            self.materials[mat_type] -= mat_cost
-        self.assembly.append(bot_class)
-
-    def try_build(self):
-        bot_class = self.PRODUCERS[self.seeking_material]
-        print(f"try_build bot_class: {bot_class}")
-
-        missing_materials = self.get_missing_materials(bot_class)
-        if not missing_materials:
-            self.seeking_material = None
-            self.build(bot_class)
-            print(f"\tSuccess {bot_class}")
-            return True
-
-        if len(missing_materials) == 1:
-            self.seeking_material = missing_materials[0]
-        else:
-            # Decide which one to prioritize
-            producer1 = self.PRODUCERS[missing_materials[0]]
-            producer2 = self.PRODUCERS[missing_materials[1]]
-            try:
-                production_rate = self.robots[producer1] / self.robots[producer2]
-            except ZeroDivisionError:
-                production_rate = 999
-
-            bot_rate = bot_class.rate()
-            if bot_rate > production_rate:
-                # Bot requires more abundance of mat0
-                self.seeking_material = missing_materials[0]
-            elif bot_rate < production_rate:
-                # Bot requires more abundance of mat1
-                self.seeking_material = missing_materials[1]
-
-        if self.PRODUCERS[self.seeking_material] == bot_class:
-            self.seeking_material = None
-        return False
-
-    def simulate(self):
-        """Decide what to do next.
-
-        Proportion -> mat0 / mat1 # bigger means abudance of mat0
-        """
-        while self.seeking_material and not self.try_build():
-            print(f"seeking_material: {self.seeking_material}")
-            continue
-        for bot_class, count in self.robots.items():
-            mat_type = bot_class.produces
-            self.materials[mat_type] += count
-            print(f"Collect {count} {mat_type}")
-        if self.assembly:
-            print(f"Build robot: {bot_class}")
-            bot_class = self.assembly.pop()
-            self.robots[bot_class] += 1
 
     def load_blueprints(self):
         """Read input."""
@@ -139,15 +74,103 @@ class Solution(BaseSolution):
             bp[GeodeBot][ORE] = int(geo[0])
             bp[GeodeBot][OBS] = int(geo[1])
             self.blueprints.append(bp)
-        # print(self.blueprints)
+        # # print(self.blueprints)
+
+    def get_quality_level(self, bp_id):
+        return (bp_id + 1) * self.bp_max_geo[bp_id]
+
+    def can_build(self, bot_class: BotBase, materials):
+        """Check if there are enough materials to build bot."""
+        for mat_type, mat_cost in bot_class.materials.items():
+            if materials[mat_type] < mat_cost:
+                return False
+        return True
+
+    def build(self, bot_class: BotBase, robots, materials):
+        """Consume materials and add bot to assembly line."""
+        robots = copy(robots)
+        materials = copy(materials)
+        for mat_type, mat_cost in bot_class.materials.items():
+            materials[mat_type] -= mat_cost
+        robots[bot_class] += 1
+        return robots, materials
+
+    def simulate(self, robots, materials, time_left):
+        """Decide what to do next."""
+        memoize_key = "".join([str(robots), str(materials), str(time_left)])
+        if memoize_key in self.MEMOIZE:
+            return self.MEMOIZE[memoize_key]
+        # print(f"time: {self.MAX_MINUTE - time_left +1 } -------------------------------------------------")
+        # print(f"robots {robots}")
+        # print(f"materials {materials}")
+
+        if time_left == 1:
+            return 0
+
+        max_ore_cost = max(bot.materials[ORE] for bot in ROBOT_CLASSES)
+        predicted_usages = dict()
+        predicted_usages[ORE] = int(ceil(
+            (max_ore_cost * time_left - materials[ORE]) / time_left
+        ))
+        predicted_usages[CLAY] = int(ceil(
+            (ObsidianBot.materials[CLAY] * time_left - materials[CLAY]) / time_left
+        ))
+        predicted_usages[OBS] = int(ceil(
+            (GeodeBot.materials[OBS] * time_left - materials[OBS]) / time_left
+        ))
+        # print(f"\tpredicted_usages {predicted_usages}")
+        missing_materials = [
+            mat_type for mat_type, usage in predicted_usages.items()
+            if usage > robots[self.PRODUCERS[mat_type]]
+        ]
+        # print(f"\tmissing_materials {missing_materials}")
+
+        to_build = []
+        if self.can_build(GeodeBot, materials):
+            to_build.append(GeodeBot)
+        if OBS in missing_materials:
+            if self.can_build(ObsidianBot, materials):
+                to_build.append(ObsidianBot)
+            if self.can_build(ClayBot, materials) and CLAY in missing_materials:
+                to_build.append(ClayBot)
+        if self.can_build(OreBot, materials) and ORE in missing_materials:
+            to_build.append(OreBot)
+        # print(f"\tto_build {to_build}")
+
+        # Gather materials
+        for bot_class, count in robots.items():
+            mat_type = bot_class.produces
+            materials[mat_type] += count
+            # print(f"\tCollect {count} {mat_type}")
+
+        # Try building and see what happens
+        max_geo = 0
+        new_time_left = time_left - 1
+        if to_build in [[], [ClayBot]]:
+            max_geo = max(
+                max_geo, self.simulate(robots, materials, new_time_left)
+            )
+        while to_build:
+            bot_class = to_build.pop()
+            # print(f"\t\tBuild robot: {bot_class}")
+            new_robots, new_materials = self.build(bot_class, robots, materials)
+            new_max = self.simulate(new_robots, new_materials, new_time_left)
+            if bot_class == GeodeBot:
+                new_max += new_time_left - 1
+            max_geo = max(max_geo, new_max)
+            if bot_class in [GeodeBot, ObsidianBot]:
+                break
+        self.MEMOIZE[memoize_key] = max_geo
+        return max_geo
 
     def part_1(self):
         """Add up the quality level of all of the blueprints."""
         self.load_blueprints()
         for bp in self.blueprints:
-            print("#"*100)
-            print("#"*100)
-            print("#"*100)
+            # print("#"*100)
+            # print("#"*100)
+            # print("#"*100)
+            self.MEMOIZE = dict()
             for bot_class, materials in bp.items():
                 bot_class.materials = materials
             self.materials = {mat_type: 0 for mat_type in MATERIAL_TYPES}
@@ -155,14 +178,8 @@ class Solution(BaseSolution):
             self.robots = {bot_class: 0 for bot_class in ROBOT_CLASSES}
             self.robots[OreBot] = 1
 
-            for minute in range(self.MAX_MINUTE):
-                print("="*80)
-                print(f"minute: {minute}")
-                self.seeking_material = GEO
-                self.simulate()
-                print(f"materials: {self.materials}")
-
-            self.bp_max_geo.append(self.materials[GEO])
+            result = self.simulate(self.robots, self.materials, self.MAX_MINUTE)
+            self.bp_max_geo.append(result)
 
         print(self.bp_max_geo)
         return sum([
