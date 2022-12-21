@@ -2,8 +2,8 @@ from advent_of_code.src.utils import BaseSolution
 
 
 class Solution(BaseSolution):
-    """Logics for solving day 0."""
-    day = 0
+    """Logics for solving day 20."""
+    day = 20
     DEC_KEY = 811589153
 
     # example = True
