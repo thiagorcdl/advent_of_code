@@ -193,10 +193,14 @@ class Solution(BaseSolution):
         orientation = EDGE_ORIENTATION[edge_id]
         if orientation == HORIZONTAL:
             # Fixed line, variable column
-            return [x for x in range(start_c, end_c+1)]
+            edge_list = [x for x in range(start_c, end_c+1)]
         else:
             # Fixed column, variable line
-            return [x for x in range(start_l, end_l+1)]
+            edge_list = [x for x in range(start_l, end_l+1)]
+
+        if edge_id in ["B1", "B2", "D1", "D2"]:
+            edge_list.reverse()
+        return edge_list
 
     def get_next_cell_cube(self):
         """Calculate next pos and get value around the cube."""
