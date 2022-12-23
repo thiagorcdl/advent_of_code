@@ -29,6 +29,8 @@ class Solution(BaseSolution):
     check_order = [NORTH, SOUTH, WEST, EAST]
     proposed_moves = dict()
     elves = dict()
+    n_elves = 0
+    stopped_elf_count = 0
 
     # example = True
 
@@ -40,7 +42,7 @@ class Solution(BaseSolution):
                 if val == ELF:
                     elf_id += 1
                     self.elves[(l, c)] = elf_id
-        print(self.elves)
+        self.n_elves = len(self.elves)
 
     def propose_move(self, elf_pos):
         considered_moves = []
@@ -49,12 +51,6 @@ class Solution(BaseSolution):
             for modif_l, modif_c in pos_modifs:
                 look_pos = elf_pos[0] + modif_l, elf_pos[1] + modif_c
                 if look_pos in self.elves:
-                    # Occupied, try next
-                    # print(f"-"*80)
-                    # print(f"elf_id {self.elves[elf_pos]}")
-                    # print(f"elf_pos {elf_pos}")
-                    # print(f"looking {check_dir}")
-                    # print(f"{look_pos} OCCUPIED")
                     break
             else:
                 # Nothing found in direction, propose move
@@ -71,25 +67,26 @@ class Solution(BaseSolution):
             else:
                 # Dibs!
                 self.proposed_moves[next_pos] = elf_pos
-        # elif len(considered_moves) == 4:
-        #     print(f"{self.elves[elf_pos]} STOP")
-        # elif len(considered_moves) == 0:
-        #     print(f"{self.elves[elf_pos]} CANNOT")
 
     def move(self, next_pos, elf_pos):
         if elf_pos is None:
-            return
+            return 0
 
         self.elves[next_pos] = self.elves.pop(elf_pos)
+        return 1
 
     def simulate_round(self):
         self.proposed_moves = dict()
+        move_count = 0
         for elf_pos in self.elves:
             self.propose_move(elf_pos)
         for next_pos, elf_pos in self.proposed_moves.items():
-            self.move(next_pos, elf_pos)
+            move_count += self.move(next_pos, elf_pos)
+        if move_count == 0:
+            return False
         check_dir = self.check_order.pop(0)
         self.check_order.append(check_dir)
+        return True
 
     def draw_map(self):
         low_l = low_c = INFINITE
@@ -116,23 +113,22 @@ class Solution(BaseSolution):
             low_c = min(low_c, elf_c)
             high_c = max(high_c, elf_c)
 
-        height = high_l - low_l +1
-        length = high_c - low_c +1
-        return (height * length) - len(self.elves)
+        height = high_l - low_l + 1
+        length = high_c - low_c + 1
+        return (height * length) - self.n_elves
 
     def part_1(self):
         """Run solution for part 1."""
         self.read_map()
-        # self.draw_map()
         for i in range(N_ROUNDS):
             self.simulate_round()
-            # print(f"\n== End of Round {i + 1} ==")
         self.draw_map()
         return self.calculate_spaced_ground()
 
     def part_2(self):
         """Run solution for part 2."""
-        total = 0
-        for line in self.input_lines:
-            pass
-        return total
+        self.read_map()
+        i = 1
+        while self.simulate_round():
+            i += 1
+        return i
